@@ -102,6 +102,7 @@ def index():
 
     return render_template("index.html")
 
+
 @app.route("/generate", methods=["POST"])
 def generate():
     return index()  # Calls the index function to handle form submission and render results
@@ -183,8 +184,6 @@ def confidence_interval():
     intercept = float(session.get("intercept"))
     slopes = np.array(session.get("slopes"))
     intercepts = np.array(session.get("intercepts"))
-    slope_extreme = session.get("slope_extreme")
-    intercept_extreme = session.get("intercept_extreme")
 
     parameter = request.form.get("parameter")
     confidence_level = float(request.form.get("confidence_level"))
@@ -208,41 +207,28 @@ def confidence_interval():
     ci_lower = mean_estimate - t_score * std_error
     ci_upper = mean_estimate + t_score * std_error
 
-    # Calculate the 50% confidence interval
-    t_score_50 = t.ppf((1 + 0.5) / 2, df=S - 1)
-    ci_lower_50 = mean_estimate - t_score_50 * std_error
-    ci_upper_50 = mean_estimate + t_score_50 * std_error
-
     # Check if the specified confidence interval includes the true parameter
     includes_true = ci_lower <= true_param <= ci_upper
 
-    # Define colors for the confidence interval line based on whether it includes the true parameter
-    ci_color = "green" if includes_true else "red"
-
     # Generate the confidence interval plot
     plot4_path = "static/plot4.png"
-    plt.figure(figsize=(12, 4))
+    plt.figure(figsize=(9, 6))
     plt.scatter(estimates, [0] * S, color="gray", alpha=0.5, label="Simulated Estimates")
-    plt.plot([ci_lower, ci_upper], [0, 0], color=ci_color, linewidth=4, label=f"{confidence_level}% Confidence Interval")
-    plt.plot([ci_lower_50, ci_upper_50], [0, 0], color="orange", linewidth=4, linestyle=":", label="50% Confidence Interval")
+    plt.plot([ci_lower, ci_upper], [0, 0], color="green" if includes_true else "red", linewidth=4, label=f"{confidence_level}% Confidence Interval")
     plt.scatter([mean_estimate], [0], color="blue", s=100, zorder=5, label="Mean Estimate")
     plt.axvline(true_param, color="green", linestyle="--", linewidth=2, label="True Parameter")
 
-    # Set x-axis ticks with increments of 0.5 and adjust x-axis limits to cover all data points
-    min_x = min(np.min(estimates), ci_lower, ci_lower_50, true_param) - 0.5
-    max_x = max(np.max(estimates), ci_upper, ci_upper_50, true_param) + 0.5
-    plt.xticks(np.arange(round(min_x * 2) / 2, round(max_x * 2) / 2 + 0.5, 0.5))
+    # Set x-axis limits to cover all data points
+    min_x = min(np.min(estimates), ci_lower, true_param) - 0.5
+    max_x = max(np.max(estimates), ci_upper, true_param) + 0.5
     plt.xlim(min_x, max_x)
-
-    # Formatting the plot to have only the x-axis
     plt.xlabel(f"{parameter.capitalize()} Estimate")
     plt.yticks([])
-    plt.title(f"{confidence_level}% and 50% Confidence Intervals for {parameter.capitalize()} (Mean Estimate)")
+    plt.title(f"{confidence_level}% Confidence Interval for {parameter.capitalize()}")
     plt.legend(loc="upper right")
     plt.savefig(plot4_path)
     plt.close()
 
-    # Return results to template, including slope_extreme and intercept_extreme
     return render_template(
         "results.html",
         plot1=session.get("plot1"),
@@ -253,18 +239,10 @@ def confidence_interval():
         mean_estimate=mean_estimate,
         ci_lower=ci_lower,
         ci_upper=ci_upper,
-        ci_lower_50=ci_lower_50,
-        ci_upper_50=ci_upper_50,
         includes_true=includes_true,
         observed_stat=observed_stat,
-        slope_extreme=slope_extreme,
-        intercept_extreme=intercept_extreme,
-        N=N,
-        mu=mu,
-        sigma2=sigma2,
-        beta0=beta0,
-        beta1=beta1,
-        S=S,
+        slope_extreme=session.get("slope_extreme"),
+        intercept_extreme=session.get("intercept_extreme"),
     )
 
 if __name__ == "__main__":
