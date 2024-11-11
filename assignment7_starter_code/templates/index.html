@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linear Regression Hypothesis Testing and Confidence Intervals</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Linear Regression Simulations</h1>
+
+        <!-- Data Generation Form -->
+        <form method="POST" action="/generate">
+            <div class="form-group">
+                <label for="N">Sample Size (N):</label>
+                <input type="number" id="N" name="N" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mu">Mean (μ):</label>
+                <input type="number" step="any" id="mu" name="mu" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sigma2">Variance (σ²):</label>
+                <input type="number" step="any" id="sigma2" name="sigma2" required>
+            </div>
+
+            <div class="form-group">
+                <label for="beta0">Intercept (β₀):</label>
+                <input type="number" step="any" id="beta0" name="beta0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="beta1">Slope (β₁):</label>
+                <input type="number" step="any" id="beta1" name="beta1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="S">Number of Simulations (S):</label>
+                <input type="number" id="S" name="S" required>
+            </div>
+
+            <button type="submit">Generate Data</button>
+        </form>
+    </div>
+</body>
+</html>

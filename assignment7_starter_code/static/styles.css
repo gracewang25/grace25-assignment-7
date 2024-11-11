@@ -1,0 +1,139 @@
+/* General resets */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h1 {
+    color: #004aad;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h2, h3 {
+    color: #00509e;
+    margin-bottom: 10px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-size: 1em;
+    color: #333;
+}
+
+input[type="number"],
+select {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline-color: #0066cc;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 1em;
+    color: #ffffff;
+    background-color: #0077cc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005fa3;
+}
+
+/* Results section */
+.plot-section,
+.stats-section {
+    margin-top: 20px;
+    padding: 15px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.plot-image {
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stats-section p {
+    font-size: 1em;
+    color: #333;
+}
+
+/* Return to Form Button */
+.return-button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 1em;
+    color: #0077cc;
+    background-color: #e0e7ff;
+    border: 2px solid #0077cc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+.return-button:hover {
+    background-color: #0077cc;
+    color: #ffffff;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+    
+    .form-group label, .stats-section p {
+        font-size: 0.9em;
+    }
+
+    button, .return-button {
+        font-size: 0.9em;
+        padding: 10px;
+    }
+}
